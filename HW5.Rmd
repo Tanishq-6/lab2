@@ -1,0 +1,58 @@
+---
+title: "Homework-5"
+author: "Tanishq Jain"
+date: "2023-03-06"
+output: html_document
+---
+
+```{r}
+#1
+library(ggplot2)
+# Read in the choco data
+choco <- read.csv("https://ds202-at-isu.github.io/labs/data/choco.csv")
+
+# Print the number of chocolate bars rated
+nrow(choco)
+
+#2
+ggplot(choco, aes(x = Review.Date)) +
+  geom_bar() +
+  labs(x = "Year", y = "Number of Ratings")
+
+#3
+ggplot(choco, aes(x = Rating)) +
+  geom_histogram(binwidth = 0.25) +
+  labs(x = "Rating", y = "Count")
+#The resulting histogram is normally distributed with a peak at around 3 to 3.5. There are some outliers at 5 and 1 which indicates that there some exceptional choclates and some bad ones in the dataset.
+
+#4
+ggplot(choco, aes(x = Cocoa.Pct, y = Rating)) +
+  geom_point() +
+  labs(x = "Cocoa Percentage", y = "Rating")
+# There is a weak positive relationship between Rating and Cocoa percentage
+
+#5
+choco_top_loc <- dplyr::filter(choco, Company.Location %in% c("U.S.A.", "France", "Canada"))
+
+ggplot(choco_top_loc, aes(x = Company.Location, y = Rating)) +
+  geom_boxplot() +
+  labs(x = "Company Location", y = "Rating")
+
+#From the box plot we can say that french companies have less variability in their ratings and tend to have higher median rating and USA companies have higher variability in their ratings.
+
+#6 Are chocolate bars with a specific bean type rated higher than those without a specific bean type listed?
+choco$has_bean_type <- ifelse(is.na(choco$Bean.Type), "No", "Yes")
+
+ggplot(choco, aes(x = has_bean_type, y = Rating)) +
+  geom_boxplot() +
+  labs(x = "Has Specific Bean Type Listed?", y = "Rating") +
+  ylim(0, 5)
+
+#As the median is higher for chocolate bars with a specific bean type, it may suggest that chocolate bars with a specific bean type are rated higher than those without.
+
+
+
+
+
+```
+
