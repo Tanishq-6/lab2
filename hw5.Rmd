@@ -1,0 +1,84 @@
+---
+title: "hw5"
+author: "Taran Panduranga"
+date: "2023-03-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+choco <- read.csv("https://ds202-at-isu.github.io/labs/data/choco.csv")
+head(choco)
+
+library(ggplot2)
+nrow(choco)
+```
+
+Question 1:
+There are 1852 chocolate bars rated.
+
+Question 2:
+```{r}
+ggplot(choco, aes(x = Review.Date)) + 
+  geom_bar() +
+  coord_flip()
+```
+The number of ratings seems to increase as the years prgress. This trend is not fully linear, however it suits the general characteristics of this bar chart. Additionally, 2017.5 seems to break this trend by having a low number of ratings.
+
+
+
+Question Set II
+
+
+Question 1:
+```{r}
+ggplot(choco, aes(x = Rating)) + 
+  geom_histogram(binwidth=0.5) +
+  ggtitle("binwidth = 1")
+```
+  The ratings are in this histogram are unimodal and there is a bell curve present. Chocolate bars with a rating of 3 are highest in frequency. Lastly, bars with a rating of 5 is an outlier in this data set.
+  
+Question 2.
+  
+```{r}
+ggplot(choco, aes(x = Cocoa.Pct)) + 
+  geom_bar() +
+  labs(x = "Cocoa.Pct", y = "Rating")
+```
+The ratings are the highest when the cocoa percentage is around 68%. There is also a bell curve where percentages from 65 to 75 percent are generally the highest in rating. As is characteristic of a bell curve, the high and low percentages have low ratings comparative to the center of the curve.
+
+
+Question 3:
+```{r}
+top3 <- dplyr::filter(choco, Company.Location %in% c("U.S.A.", "France", "Canada"))
+
+ggplot(data = top3, aes(x = Company.Location, y = (Rating))) +
+  geom_boxplot() + 
+  coord_flip()
+```
+Examining these ratings, we can see that USA has one outlier and France has two, however, Canada does not have any outliers. Secondly, the USA has the largest interquartile range for ratings while France has the smallest.    
+
+
+Question of Interest:
+
+How does the country of origin for the top 3 countries with the most ratings relate to cocoa percentage?
+
+```{r}
+ggplot(data = top3, aes(x = Company.Location, y = (Cocoa.Pct))) +
+  geom_boxplot() + 
+  coord_flip()
+```
+  As can be seen in the above boxplot, USA and Canada have a similar interquartile range and median for cocoa percentage . Additionally, France has the largest interquartile range and median, but the least amount of outliers. Canada has one more outlier than France, but USA has to most outliers out of the three countries.
+  Furthermore, we can compare this boxplot set to the boxplot set comparing the ratings of the three countries. We can see that in both charts, Canada and the USA have similar interquartile ranges and medians. Unlike the Cocoa.Pct chart, France in the ratings chart has the smallest interquartile range and there is no discernible difference between the median compared to the other two countries.
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
